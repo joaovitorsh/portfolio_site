@@ -33,9 +33,8 @@ jobs:
       - name: Build de produção
         working-directory: ./frontend
         env:
-          # URL do backend no Fly.io — configurada nos Secrets do repositório GitHub
-          # Settings → Secrets and variables → Actions → New repository secret
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_BASE: /portfolio_site/
         run: npm run build
 
       - name: Publicar no GitHub Pages
