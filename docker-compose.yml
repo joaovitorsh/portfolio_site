@@ -1,0 +1,46 @@
+# docker-compose.yml — orquestra os 3 containers do projeto
+# Um único "docker compose up" sobe tudo junto com as dependências corretas
+services:
+
+  # ─── PostgreSQL ──────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine      # imagem oficial, versão alpine = mais leve
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: portfolio
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # persiste os dados entre restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend FastAPI ─────────────────────────────────────────────────────────
+  backend:
+    build: ./backend
+    environment:
+      - GITHUB_USERNAME=${GITHUB_USERNAME:-joaovitorsh}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/portfolio
+      - CACHE_EXPIRY_HOURS=${CACHE_EXPIRY_HOURS:-1}
+    ports:
+      - "8001:8000"
+    depends_on:
+      db:
+        condition: service_healthy   # espera o PostgreSQL estar pronto antes de iniciar
+    volumes:
+      - ./backend:/app     # hot reload em desenvolvimento: código local montado no container
+
+  # ─── Frontend React ───────────────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+# Volume nomeado: o Docker gerencia onde os dados do Postgres ficam no disco
+volumes:
+  postgres_data:

@@ -1,0 +1,17 @@
+# render.yaml — configuração do deploy no Render.com
+# O Render lê esse arquivo automaticamente ao conectar o repositório
+services:
+  - type: web
+    name: portfolio-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: GITHUB_USERNAME
+        value: joaovitorsh
+      - key: GITHUB_TOKEN
+        sync: false          # definido manualmente no dashboard do Render
+      - key: DATABASE_URL
+        sync: false          # definido manualmente no dashboard do Render
+      - key: CACHE_EXPIRY_HOURS
+        value: "1"

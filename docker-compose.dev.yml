@@ -1,0 +1,17 @@
+# docker-compose.dev.yml — override para desenvolvimento com hot reload
+# Uso: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Substitui o container frontend (Nginx + build estático) por um servidor
+# Vite que detecta mudanças nos arquivos e atualiza o browser na hora.
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev   # Dockerfile diferente: só instala deps e roda npm dev
+    ports:
+      - "3001:3000"                # Vite roda na 3000 dentro do container (vite.config.js)
+    volumes:
+      - ./frontend/src:/app/src       # hot reload para código
+      - ./frontend/public:/app/public # imagens e arquivos estáticos
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # necessário no WSL para o Vite detectar mudanças de arquivo

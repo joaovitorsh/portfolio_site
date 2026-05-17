@@ -1,0 +1,41 @@
+/* index.css — estilos globais */
+/* As três linhas abaixo são obrigatórias para o Tailwind funcionar */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilo para o conteúdo Markdown renderizado (README dos repos) */
+.markdown-body {
+  @apply text-gray-200 leading-relaxed;
+}
+.markdown-body h1 { @apply text-2xl font-bold mt-6 mb-3 text-white; }
+.markdown-body h2 { @apply text-xl font-semibold mt-5 mb-2 text-white; }
+.markdown-body h3 { @apply text-lg font-semibold mt-4 mb-2 text-gray-100; }
+.markdown-body p  { @apply mb-3; }
+.markdown-body ul { @apply list-disc list-inside mb-3 space-y-1; }
+.markdown-body ol { @apply list-decimal list-inside mb-3 space-y-1; }
+.markdown-body a  { @apply text-blue-400 hover:underline; }
+.markdown-body pre {
+  @apply bg-gray-900 rounded-lg p-4 overflow-x-auto mb-4 text-sm;
+}
+.markdown-body code {
+  @apply bg-gray-900 text-green-400 px-1 py-0.5 rounded text-sm;
+}
+.markdown-body pre code {
+  @apply bg-transparent p-0 text-gray-300;
+}
+.markdown-body blockquote {
+  @apply border-l-4 border-gray-600 pl-4 italic text-gray-400 mb-3;
+}
+.markdown-body img {
+  @apply max-w-full rounded-lg my-3;
+}
+.markdown-body table {
+  @apply w-full border-collapse mb-4;
+}
+.markdown-body th {
+  @apply bg-gray-700 text-left px-3 py-2 font-semibold;
+}
+.markdown-body td {
+  @apply border border-gray-700 px-3 py-2;
+}

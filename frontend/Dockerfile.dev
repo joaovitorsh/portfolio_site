@@ -1,0 +1,17 @@
+# Dockerfile.dev — usado apenas em desenvolvimento
+# Não faz build de produção: só instala as dependências e roda o servidor Vite
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# Copia o restante (vite.config.js, index.html, etc.)
+# O src/ será sobrescrito pelo volume mount do docker-compose.dev.yml
+COPY . .
+
+EXPOSE 5173
+
+# --host 0.0.0.0 permite conexões de fora do container (necessário no Docker)
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
