@@ -1,12 +1,18 @@
 # database.py — configura a conexão assíncrona com o PostgreSQL
 # SQLAlchemy é o ORM mais usado em Python: abstrai SQL em objetos Python
+import ssl
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 from app.core.config import settings
 
-# "Engine" é o objeto que gerencia o pool de conexões com o banco
-# pool_pre_ping=True verifica se a conexão ainda está viva antes de usá-la
-engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+# asyncpg não aceita sslmode= na URL — remove e passa ssl via connect_args
+db_url = settings.database_url.replace("?sslmode=require", "").replace("&sslmode=require", "")
+
+connect_args = {}
+if "neon.tech" in db_url or "amazonaws.com" in db_url:
+    connect_args["ssl"] = ssl.create_default_context()
+
+engine = create_async_engine(db_url, connect_args=connect_args, pool_pre_ping=True)
 
 # "Session" é a unidade de trabalho com o banco — cada request HTTP recebe uma sessão
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
