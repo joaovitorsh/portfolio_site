@@ -32,7 +32,7 @@ export default function About() {
       {/* Cabeçalho */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <img
-          src="/avatar.jpg"
+          src={`${import.meta.env.BASE_URL}avatar.jpg`}
           alt="João Vítor"
           className="w-28 h-28 rounded-full object-cover object-top border-4 border-gray-700 shadow-lg flex-shrink-0"
         />

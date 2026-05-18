@@ -80,7 +80,7 @@ export default function Home() {
         {/* Foto */}
         <div className="flex-shrink-0">
           <img
-            src="/avatar.jpg"
+            src={`${import.meta.env.BASE_URL}avatar.jpg`}
             alt="João Vítor"
             className="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover object-top border-4 border-gray-700 shadow-xl"
           />
