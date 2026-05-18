@@ -7,7 +7,7 @@ import About from './pages/About'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-gray-950 text-white relative">
 
         {/* Aurora fixo como fundo — fica atrás de todo o conteúdo via z-index */}
