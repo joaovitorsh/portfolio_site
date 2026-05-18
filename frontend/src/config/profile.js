@@ -22,12 +22,11 @@ const profile = {
   skills: [
     "Python", "FastAPI", "Django", "Django REST Framework",
     "APIs RESTful", "Microsserviços", "Arquiteturas Distribuídas",
-    "Kafka", "Pytest", "Code Review", "CI/CD",
-    "Docker", "Git", "Keycloak",
+    "RabbitMQ", "Pytest", "Code Review", "CI/CD",
+    "Docker", "Git", "GitHub", "Bitbucket", "Keycloak",
     "AWS", "Lambda", "S3", "CloudWatch",
     "PostgreSQL", "SQL Server",
-    "LLMs", "RAG", "LangChain", "LlamaIndex", "MCP",
-    "Kanban", "Scrum",
+    "Observabilidade", "Kanban", "Scrum",
   ],
   experience: [
     {
@@ -38,7 +37,8 @@ const profile = {
         "Desenvolvimento e evolução de sistema de logística com arquitetura preparada para +10.000 usuários",
         "Desenvolvimento de APIs RESTful com FastAPI e Django Rest Framework",
         "Implementação de microsserviços e integrações entre serviços internos e externos",
-        "Arquiteturas distribuídas e orientadas a eventos com Kafka para fluxos assíncronos",
+        "Arquiteturas distribuídas e orientadas a eventos com foco em desacoplamento e escalabilidade",
+        "Desenvolvimento de integrações com mensageria para fluxos assíncronos (RabbitMQ)",
         "Testes automatizados com Pytest: unitários, de integração e regressão",
         "Participação ativa em code reviews garantindo padrão e boas práticas",
         "Integração com AWS em produção: Lambda, S3, CloudWatch e Triggers",
