@@ -1,33 +1,13 @@
-# Variáveis de ambiente — NUNCA commitar
+# Variáveis de ambiente
 .env
 *.env
-.env.local
-.env.*.local
 
-# Dependências Python
-__pycache__/
-*.py[cod]
-*.pyo
-.venv/
-venv/
-env/
-
-# Dependências Node
+# Dependências
 node_modules/
 frontend/node_modules/
 
-# Build do frontend
+# Build
 frontend/dist/
-frontend/build/
-
-# Docker volumes locais
-postgres_data/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
 
 # Claude Code
 .claude/
