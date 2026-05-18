@@ -1,36 +1,57 @@
-// api/github.js — funções que chamam o backend FastAPI
-// axios é uma biblioteca HTTP: mais ergonômica que o fetch nativo do browser
-import axios from 'axios'
+import profile from '../config/profile'
 
-// Em desenvolvimento o Vite faz proxy de /api → backend:8000
-// Em produção, defina VITE_API_URL apontando para o domínio real
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '',
-  timeout: 15000,
-})
+const GITHUB_API = 'https://api.github.com'
+const USERNAME = 'joaovitorsh'
 
-/**
- * Busca a lista completa de repositórios públicos.
- * O backend já lida com o cache — podemos chamar sem preocupação.
- */
+const headers = { 'Accept': 'application/vnd.github+json' }
+
 export async function fetchRepos() {
-  const { data } = await api.get('/api/repos/')
-  return data
+  let repos = []
+  let page = 1
+
+  while (true) {
+    const res = await fetch(
+      `${GITHUB_API}/users/${USERNAME}/repos?type=public&sort=updated&per_page=100&page=${page}`,
+      { headers }
+    )
+    const data = await res.json()
+    if (!data.length) break
+    repos = [...repos, ...data]
+    page++
+  }
+
+  // Mapeia os campos da GitHub API para o formato que os componentes esperam
+  return repos.map(r => ({
+    github_id: r.id,
+    name: r.name,
+    full_name: r.full_name,
+    description: r.description,
+    html_url: r.html_url,
+    homepage: r.homepage,
+    language: r.language,
+    topics: r.topics ?? [],
+    stargazers_count: r.stargazers_count,
+    forks_count: r.forks_count,
+    open_issues_count: r.open_issues_count,
+    fork: r.fork,
+    archived: r.archived,
+    has_readme: true,
+    pushed_at: r.pushed_at,
+    created_at: r.created_at,
+  }))
 }
 
-/**
- * Busca o conteúdo Markdown do README de um repositório específico.
- * @param {string} repoName - nome do repositório (ex: "meu-projeto")
- */
 export async function fetchReadme(repoName) {
-  const { data } = await api.get(`/api/repos/${repoName}/readme`)
-  return data.content  // string Markdown ou null
+  const res = await fetch(
+    `${GITHUB_API}/repos/${USERNAME}/${repoName}/readme`,
+    { headers }
+  )
+  if (res.status === 404) return null
+  const data = await res.json()
+  // GitHub retorna o conteúdo em Base64
+  return atob(data.content.replace(/\n/g, ''))
 }
 
-/**
- * Busca as informações do perfil do desenvolvedor.
- */
 export async function fetchProfile() {
-  const { data } = await api.get('/api/profile/')
-  return data
+  return profile
 }

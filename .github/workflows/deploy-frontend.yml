@@ -1,6 +1,3 @@
-# deploy-frontend.yml
-# Roda automaticamente quando há push na branch main com mudanças no frontend.
-# Faz o build do React e publica no GitHub Pages.
 name: Deploy Frontend
 
 on:
@@ -8,15 +5,14 @@ on:
     branches: [main]
     paths:
       - 'frontend/**'
-  workflow_dispatch:   # permite rodar manualmente pela aba Actions do GitHub
+  workflow_dispatch:
 
 permissions:
-  contents: write   # necessário para o actions-gh-pages fazer push na branch gh-pages
+  contents: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -33,7 +29,6 @@ jobs:
       - name: Build de produção
         working-directory: ./frontend
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_BASE: /portfolio_site/
         run: npm run build
 
