@@ -48,8 +48,9 @@ export async function fetchReadme(repoName) {
   )
   if (res.status === 404) return null
   const data = await res.json()
-  // GitHub retorna o conteúdo em Base64
-  return atob(data.content.replace(/\n/g, ''))
+  // GitHub retorna o conteúdo em Base64 — TextDecoder garante UTF-8 correto
+  const bytes = Uint8Array.from(atob(data.content.replace(/\n/g, '')), c => c.charCodeAt(0))
+  return new TextDecoder('utf-8').decode(bytes)
 }
 
 export async function fetchProfile() {

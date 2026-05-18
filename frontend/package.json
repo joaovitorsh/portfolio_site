@@ -15,6 +15,7 @@
     "react-markdown": "^9.0.1",
     "remark-gfm": "^4.0.0",
     "rehype-highlight": "^7.0.0",
+    "rehype-raw": "^7.0.0",
     "axios": "^1.7.2",
     "ogl": "^1.0.11"
   },

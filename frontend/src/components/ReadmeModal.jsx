@@ -2,7 +2,8 @@
 // Aparece quando o usuário clica em "Ver README" em um RepoCard
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'    // suporte a tabelas, task lists, strikethrough
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { fetchReadme } from '../api/github'
 
 export default function ReadmeModal({ repoName, onClose }) {
@@ -73,7 +74,7 @@ export default function ReadmeModal({ repoName, onClose }) {
           {/* ReactMarkdown transforma a string Markdown em JSX/HTML */}
           {content && (
             <div className="markdown-body">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {content}
               </ReactMarkdown>
             </div>
